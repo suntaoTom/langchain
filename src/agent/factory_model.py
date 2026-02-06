@@ -1,4 +1,7 @@
+"""Global model instance initialization."""
+
 import os
+
 from agent.model_config import get_model
 
 # Configuration / 配置

@@ -1,18 +1,24 @@
+"""Main graph definition for the software factory agent."""
+
 from __future__ import annotations
+
 from typing import Literal
-from langgraph.graph import StateGraph, END
-from agent.state import FactoryState
+
+from langgraph.graph import END, StateGraph
+
 from agent.nodes import (
     analyzer_node,
+    developer_node,
     mcp_node,
     pm_node,
-    developer_node,
     qa_node,
-    writer_node
+    writer_node,
 )
+from agent.state import FactoryState
+
 
 def should_continue(state: FactoryState) -> Literal["developer_node", "writer_node", "__end__"]:
-    """Determine next step based on QA status and iteration count. / 根据 QA 状态和迭代次数确定下一步。"""
+    """Determine next step based on QA status and iteration count. / 根据 QA 状态和迭代次数确定下一步。."""
     status = state["status"]
     iterations = state.get("iteration_count", 0)
     

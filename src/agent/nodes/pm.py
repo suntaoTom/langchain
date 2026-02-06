@@ -1,12 +1,17 @@
+"""PM node for requirement analysis and file path suggestion."""
+
 import re
 from typing import Any, Dict
+
 from langchain_core.messages import HumanMessage, SystemMessage
+
+from agent.factory_model import model
 from agent.state import FactoryState
 from agent.utils import get_last_message_content
-from agent.factory_model import model
+
 
 async def pm_node(state: FactoryState) -> Dict[str, Any]:
-    """Product Manager Agent: Converts user requests into detailed requirements using project context. / 产品经理 Agent：利用项目上下文将用户请求转换为详细的需求文档。"""
+    """Product Manager Agent: Converts user requests into detailed requirements using project context. / 产品经理 Agent：利用项目上下文将用户请求转换为详细的需求文档。."""
     user_request = get_last_message_content(state["messages"])
     project_map = state.get("project_map", "Unknown structure")
     project_guidelines = state.get("project_context", "")

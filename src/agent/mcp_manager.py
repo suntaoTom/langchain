@@ -1,20 +1,25 @@
+"""Manager for MCP servers and tools integration."""
+
+import logging
 import os
-import asyncio
-from typing import List, Dict, Any, Optional
-from langchain_mcp_adapters.tools import load_mcp_tools
+from typing import List
+
 from langchain_core.tools import BaseTool
-from mcp import ClientSession, StdioServerParameters
-from mcp.client.stdio import stdio_client
+from langchain_mcp_adapters.tools import load_mcp_tools
+from mcp import StdioServerParameters
+
+logger = logging.getLogger(__name__)
 
 class MCPManager:
-    """Manager for MCP servers and tools integration. / MCP 服务器和工具集成的管理器。"""
+    """Manager for MCP servers and tools integration. / MCP 服务器和工具集成的管理器。."""
     
     def __init__(self):
+        """Initialize the MCP manager instance."""
         self.tools: List[BaseTool] = []
         self._initialized = False
 
     async def initialize_tools(self):
-        """Discover and load tools from configured MCP servers. / 从配置的 MCP 服务器中发现并加载工具。"""
+        """Discover and load tools from configured MCP servers. / 从配置的 MCP 服务器中发现并加载工具。."""
         if self._initialized:
             return
         
@@ -36,7 +41,7 @@ class MCPManager:
             cmd_str = os.getenv(cmd_env)
             
             if not cmd_str:
-                print(f"Warning: No command found for MCP server {name} ({cmd_env})")
+                logger.warning("Warning: No command found for MCP server %s (%s)", name, cmd_env)
                 continue
 
             try:
@@ -55,16 +60,16 @@ class MCPManager:
                 # It handles the context management internally or via a list of tools
                 tools = await load_mcp_tools(server_params)
                 all_tools.extend(tools)
-                print(f"Loaded {len(tools)} tools from MCP server: {name}")
+                logger.info("Loaded %d tools from MCP server: %s", len(tools), name)
                 
-            except Exception as e:
-                print(f"Error loading MCP server {name}: {str(e)}")
+            except Exception:
+                logger.exception("Error loading MCP server %s", name)
 
         self.tools = all_tools
         self._initialized = True
 
     def get_tools(self) -> List[BaseTool]:
-        """Return the list of loaded MCP tools. / 返回已加载的 MCP 工具列表。"""
+        """Return the list of loaded MCP tools. / 返回已加载 of MCP 工具列表。."""
         return self.tools
 
 # Singleton instance

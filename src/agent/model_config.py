@@ -8,24 +8,22 @@ Supports:
 """
 
 import os
+from typing import Literal
+
 from dotenv import load_dotenv
+from langchain_core.language_models import BaseChatModel
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
 
 # Load environment variables early
 load_dotenv()
-
-from typing import Literal
-
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_openai import ChatOpenAI
-from langchain_ollama import ChatOllama
-from langchain_core.language_models import BaseChatModel
 
 # Define supported model types
 ModelProvider = Literal["gemini", "qwen", "deepseek", "ollama"]
 
 def get_model(provider: ModelProvider = "gemini", temperature: float = 0) -> BaseChatModel:
-    """Factory function to get a chat model instance."""
-    
+    """Get a chat model instance based on the provider."""
     if provider == "gemini":
         api_key = os.getenv("GOOGLE_API_KEY")
         if not api_key:

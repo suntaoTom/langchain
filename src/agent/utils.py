@@ -1,9 +1,13 @@
+"""Utility functions for the software factory agent."""
+
 import os
-from typing import List, Any
+from typing import List
+
 from langchain_core.messages import AnyMessage
 
+
 def get_last_message_content(messages: List[AnyMessage]) -> str:
-    """Safely extract content from the last message in the history. / 安全地从历史记录中的最后一条消息中提取内容。"""
+    """Safely extract content from the last message in the history. / 安全地从历史记录中的最后一条消息中提取内容。."""
     if not messages:
         return ""
     last_msg = messages[-1]
@@ -11,8 +15,8 @@ def get_last_message_content(messages: List[AnyMessage]) -> str:
         return last_msg.get("content", "")
     return getattr(last_msg, "content", str(last_msg))
 
-def get_project_structure(root_dir: str = ".", exclude_dirs: List[str] = None) -> str:
-    """Scan the directory to create a text-based tree structure. / 扫描目录以创建基于文本的 tree 结构。"""
+def get_project_structure(root_dir: str = ".", exclude_dirs: List[str] | None = None) -> str:
+    """Scan the directory to create a text-based tree structure. / 扫描目录以创建基于文本的 tree 结构。."""
     if exclude_dirs is None:
         env_excludes = os.getenv("PROJECT_EXCLUDES", "")
         if env_excludes:
@@ -35,7 +39,7 @@ def get_project_structure(root_dir: str = ".", exclude_dirs: List[str] = None) -
     return "\n".join(tree)
 
 def read_project_guidelines(root_dir: str) -> str:
-    """Find and read key documentation/guideline files, including AI-specific rules and skills. / 查找并读取关键文档/规范文件，包括 AI 特定的规则和技能文档。"""
+    """Find and read key documentation/guideline files, including AI-specific rules and skills. / 查找并读取关键文档/规范文件，包括 AI 特定的规则和技能文档。."""
     root_dir = os.path.abspath(root_dir)
     context = []
     
@@ -64,7 +68,7 @@ def read_project_guidelines(root_dir: str) -> str:
         if os.path.isfile(path):
             if path.lower().endswith(".md"):
                 try:
-                    with open(path, "r", encoding="utf-8") as f:
+                    with open(path, encoding="utf-8") as f:
                         rel_path = os.path.relpath(path, root_dir)
                         content = f.read()
                         context.append(f"--- CONTENT OF {rel_path} ---\n{content}")
@@ -85,7 +89,7 @@ def read_project_guidelines(root_dir: str) -> str:
     return "\n\n".join(context) if context else "No project-specific guidelines found. / 未发现特定于项目的指导规范。"
 
 def save_file_sync(file_path: str, clean_code: str):
-    """Synchronous helper to write file. / 写入文件的同步辅助函数。"""
+    """Write the generated code to the local filesystem. / 将生成的代码保存到本地文件系统。."""
     abs_path = os.path.abspath(file_path)
     os.makedirs(os.path.dirname(abs_path), exist_ok=True)
     with open(abs_path, "w", encoding="utf-8") as f:

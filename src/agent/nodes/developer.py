@@ -1,10 +1,15 @@
+"""Developer node for code generation based on requirements."""
+
 from typing import Any, Dict
+
 from langchain_core.messages import HumanMessage, SystemMessage
-from agent.state import FactoryState
+
 from agent.factory_model import model
+from agent.state import FactoryState
+
 
 async def developer_node(state: FactoryState) -> Dict[str, Any]:
-    """Developer Agent: Writes code based on requirements and project context. / 开发人员 Agent：根据需求和项目上下文编写代码。"""
+    """Developer Agent: Writes code based on requirements and project context. / 开发人员 Agent：根据需求和项目上下文编写代码。."""
     requirements = state["requirements"]
     feedback = state.get("feedback")
     project_map = state.get("project_map", "")

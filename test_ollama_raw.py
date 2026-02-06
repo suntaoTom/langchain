@@ -1,7 +1,13 @@
+"""Manual test for raw Ollama API connection."""
+
+import logging
+
 import requests
-import json
+
+logger = logging.getLogger(__name__)
 
 def test_ollama_raw():
+    """Test raw connection to local Ollama server."""
     url = "http://127.0.0.1:11434/api/generate"
     data = {
         "model": "deepseek-r1:8b",
@@ -9,12 +15,13 @@ def test_ollama_raw():
         "stream": False
     }
     try:
-        print(f"Connecting to {url}...")
+        logger.info("Connecting to %s...", url)
         response = requests.post(url, json=data, timeout=30, proxies={"http": None, "https": None})
-        print(f"Status Code: {response.status_code}")
-        print(f"Response: {response.text}")
-    except Exception as e:
-        print(f"Error: {e}")
+        logger.info("Status Code: %s", response.status_code)
+        logger.info("Response: %s", response.text)
+    except Exception:
+        logger.exception("Error in test_ollama_raw")
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
     test_ollama_raw()

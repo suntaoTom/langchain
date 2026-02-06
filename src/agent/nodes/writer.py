@@ -1,13 +1,18 @@
+"""Writer node for saving generated code to file."""
+
+import asyncio
 import os
 import re
-import asyncio
 from typing import Any, Dict
+
 from langchain_core.messages import SystemMessage
+
 from agent.state import FactoryState
 from agent.utils import save_file_sync
 
+
 async def writer_node(state: FactoryState) -> Dict[str, Any]:
-    """File Writer Agent: Saves the generated code to the local filesystem. / 文件写入 Agent：将生成的代码保存到本地文件系统。"""
+    """File Writer Agent: Saves the generated code to the local filesystem. / 文件写入 Agent：将生成的代码保存到本地文件系统。."""
     code = state["code"] or ""
     
     # Use PM's suggested path or fallback to a default
