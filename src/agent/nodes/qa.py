@@ -10,8 +10,8 @@ from agent.state import FactoryState
 
 async def qa_node(state: FactoryState) -> Dict[str, Any]:
     """QA Agent: Reviews code against requirements and project guidelines. / QA Agent：根据需求和项目规范评审代码。."""
-    requirements = state["requirements"]
-    code = state["code"]
+    requirements = state.get("requirements")
+    code = state.get("code")
     project_guidelines = state.get("project_context", "")
     
     system_prompt = (

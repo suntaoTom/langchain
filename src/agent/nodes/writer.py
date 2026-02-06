@@ -13,7 +13,7 @@ from agent.utils import save_file_sync
 
 async def writer_node(state: FactoryState) -> Dict[str, Any]:
     """File Writer Agent: Saves the generated code to the local filesystem. / 文件写入 Agent：将生成的代码保存到本地文件系统。."""
-    code = state["code"] or ""
+    code = state.get("code") or ""
     
     # Use PM's suggested path or fallback to a default
     suggested_path = state.get("file_path") or "output/generated_code.txt"

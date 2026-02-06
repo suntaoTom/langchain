@@ -12,7 +12,7 @@ from agent.utils import get_last_message_content
 
 async def pm_node(state: FactoryState) -> Dict[str, Any]:
     """Product Manager Agent: Converts user requests into detailed requirements using project context. / 产品经理 Agent：利用项目上下文将用户请求转换为详细的需求文档。."""
-    user_request = get_last_message_content(state["messages"])
+    user_request = get_last_message_content(state.get("messages", []))
     project_map = state.get("project_map", "Unknown structure")
     project_guidelines = state.get("project_context", "")
     design_data = state.get("design_data", "No design data available.")

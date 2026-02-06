@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from typing import Literal
 
+from dotenv import load_dotenv
 from langgraph.graph import END, StateGraph
 
 from agent.nodes import (
@@ -16,10 +17,12 @@ from agent.nodes import (
 )
 from agent.state import FactoryState
 
+load_dotenv()
+
 
 def should_continue(state: FactoryState) -> Literal["developer_node", "writer_node", "__end__"]:
     """Determine next step based on QA status and iteration count. / 根据 QA 状态和迭代次数确定下一步。."""
-    status = state["status"]
+    status = state.get("status")
     iterations = state.get("iteration_count", 0)
     
     # If approved, move to writing the file / 如果审核通过，则开始写入文件

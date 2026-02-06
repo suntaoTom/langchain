@@ -13,7 +13,7 @@ from agent.utils import get_last_message_content
 
 async def mcp_node(state: FactoryState) -> Dict[str, Any]:
     """MCP Agent: Uses MCP tools to fetch external context (e.g. Figma designs). / MCP Agent：使用 MCP 工具获取外部上下文（例如 Figma 设计）。."""
-    user_request = get_last_message_content(state["messages"])
+    user_request = get_last_message_content(state.get("messages", []))
     
     # Quick check: does the request contain a URL?
     urls = re.findall(r'https?://[^\s<>"]+|www\.[^\s<>"]+', user_request)

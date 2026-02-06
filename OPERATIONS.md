@@ -8,3 +8,7 @@ uv run langgraph dev
 kill $(lsof -t -i:2024) 2>/dev/null
 
 NO_PROXY=127.0.0.1,localhost uv run langgraph dev
+
+
+# 笔记
+Browser Subagent（浏览器子代理） 的功能

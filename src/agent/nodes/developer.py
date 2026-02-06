@@ -10,7 +10,7 @@ from agent.state import FactoryState
 
 async def developer_node(state: FactoryState) -> Dict[str, Any]:
     """Developer Agent: Writes code based on requirements and project context. / 开发人员 Agent：根据需求和项目上下文编写代码。."""
-    requirements = state["requirements"]
+    requirements = state.get("requirements")
     feedback = state.get("feedback")
     project_map = state.get("project_map", "")
     project_guidelines = state.get("project_context", "")
