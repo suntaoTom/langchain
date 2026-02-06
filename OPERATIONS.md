@@ -1,4 +1,4 @@
-uv sync或者pip install
+rm -rf .venv && uv venv && uv sync
 
 pkill -f "langgraph dev"
 

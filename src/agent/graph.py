@@ -4,6 +4,7 @@ from langgraph.graph import StateGraph, END
 from agent.state import FactoryState
 from agent.nodes import (
     analyzer_node,
+    mcp_node,
     pm_node,
     developer_node,
     qa_node,
@@ -26,6 +27,7 @@ graph_builder = StateGraph(FactoryState)
 
 # Add nodes / 添加节点
 graph_builder.add_node("analyzer_node", analyzer_node)
+graph_builder.add_node("mcp_node", mcp_node)
 graph_builder.add_node("pm_node", pm_node)
 graph_builder.add_node("developer_node", developer_node)
 graph_builder.add_node("qa_node", qa_node)
@@ -33,7 +35,8 @@ graph_builder.add_node("writer_node", writer_node)
 
 # Add edges / 添加边缘
 graph_builder.add_edge("__start__", "analyzer_node")
-graph_builder.add_edge("analyzer_node", "pm_node")
+graph_builder.add_edge("analyzer_node", "mcp_node")
+graph_builder.add_edge("mcp_node", "pm_node")
 graph_builder.add_edge("pm_node", "developer_node")
 graph_builder.add_edge("developer_node", "qa_node")
 graph_builder.add_edge("writer_node", END)

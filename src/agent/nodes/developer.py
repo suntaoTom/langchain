@@ -9,16 +9,19 @@ async def developer_node(state: FactoryState) -> Dict[str, Any]:
     feedback = state.get("feedback")
     project_map = state.get("project_map", "")
     project_guidelines = state.get("project_context", "")
+    design_data = state.get("design_data", "")
     
     system_prompt = (
         "You are a Senior Software Engineer. "
         "Write clean, efficient code that follows the existing project's conventions, language, and AI guidelines. "
-        "You MUST strictly follow any AI-related rules or specialized 'skills' documented in the project context."
+        "You MUST strictly follow any AI-related rules or specialized 'skills' documented in the project context. "
+        "If design data (e.g., from Figma) is available, ensure the code implementation matches the design exactly."
     )
     
     user_prompt = (
         f"Project Context Structure:\n{project_map}\n\n"
-        f"Project Guidelines/Rules (including AI Rules and Skills):\n{project_guidelines}\n\n"
+        f"Project Guidelines/Rules:\n{project_guidelines}\n\n"
+        f"Design Context (from MCP/Figma):\n{design_data}\n\n"
         f"Requirements:\n{requirements}\n\n"
     )
     

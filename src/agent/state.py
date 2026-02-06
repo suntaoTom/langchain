@@ -14,6 +14,7 @@ class FactoryState(TypedDict):
     project_map: Optional[str] # Context of the existing project structure / 现有项目结构的上下文
     project_root: Optional[str] # Root directory to analyze / 要分析的根目录
     project_context: Optional[str] # Content of AI instructions/guidelines / AI 指导/规范文件的内容
+    design_data: Optional[str] # Data retrieved from design tools (e.g. Figma) via MCP / 通过 MCP 从设计工具（如 Figma）检索的数据
     # Process control / 过程控制
     iteration_count: int
     status: str

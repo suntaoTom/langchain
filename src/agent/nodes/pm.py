@@ -10,16 +10,19 @@ async def pm_node(state: FactoryState) -> Dict[str, Any]:
     user_request = get_last_message_content(state["messages"])
     project_map = state.get("project_map", "Unknown structure")
     project_guidelines = state.get("project_context", "")
+    design_data = state.get("design_data", "No design data available.")
     
     system_prompt = (
         "You are an experienced Product Manager. "
         "Your goal is to convert user requests into a detailed Requirements Document. "
-        "You MUST carefully read and adhere to all AI-specific rules, guidelines, and skills documentation found in the project context."
+        "You MUST carefully read and adhere to all AI-specific rules, guidelines, and skills documentation found in the project context. "
+        "If design data (e.g., from Figma) is provided, you MUST incorporate it into the requirements."
     )
     
     prompt = (
         f"Project Structure:\n{project_map}\n\n"
-        f"Project Guidelines/Rules (including AI Rules and Skills):\n{project_guidelines}\n\n"
+        f"Project Guidelines/Rules:\n{project_guidelines}\n\n"
+        f"Design Context (from MCP/Figma):\n{design_data}\n\n"
         f"User Request: {user_request}\n\n"
         "1. Analyze the request and create a detailed Requirements Document (Goal, Functional, Acceptance).\n"
         "2. Based on the Project Guidelines and Structure, determine the most appropriate programming language and framework.\n"
