@@ -11,15 +11,20 @@ from agent.nodes import (
     writer_node
 )
 
-def should_continue(state: FactoryState) -> Literal["developer_node", "writer_node"]:
-    """Determine next step based on QA status. / 根据 QA 状态确定下一步。"""
+def should_continue(state: FactoryState) -> Literal["developer_node", "writer_node", "__end__"]:
+    """Determine next step based on QA status and iteration count. / 根据 QA 状态和迭代次数确定下一步。"""
     status = state["status"]
+    iterations = state.get("iteration_count", 0)
     
     # If approved, move to writing the file / 如果审核通过，则开始写入文件
     if status == "approved":
         return "writer_node"
     
-    # Otherwise, keep retrying indefinitely until approved / 否则持续重试直至审核通过
+    # Deadlock prevention / 防止死锁: stop after 3 iterations
+    if iterations >= 3:
+        return END
+    
+    # Otherwise, keep retrying / 否则继续重试
     return "developer_node"
 
 # Define the graph / 定义图
@@ -47,7 +52,8 @@ graph_builder.add_conditional_edges(
     should_continue,
     {
         "developer_node": "developer_node",
-        "writer_node": "writer_node"
+        "writer_node": "writer_node",
+        "__end__": END
     }
 )
 

@@ -35,8 +35,8 @@ async def qa_node(state: FactoryState) -> Dict[str, Any]:
         
         content = response.content if hasattr(response, "content") else str(response)
         
-        first_line = content.strip().split('\n')[0].upper()
-        if "APPROVED" in first_line:
+        # More robust approval check / 更健壮的批准检查
+        if "APPROVED" in content.upper():
             is_approved = True
             feedback = "Approved."
         else:

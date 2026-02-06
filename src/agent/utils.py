@@ -42,8 +42,7 @@ def read_project_guidelines(root_dir: str) -> str:
     standard_files = [
         "README.md", 
         "CONTRIBUTING.md", 
-        "DEVELOPMENT.md",
-        "DEVELOUPMENT.md" 
+        "DEVELOPMENT.md"
     ]
     
     to_process = []
